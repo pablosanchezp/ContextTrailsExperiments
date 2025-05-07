@@ -45,14 +45,14 @@ pip install \
 
 
 
- - **NOTE**: the data used in this repository can be found in the repository [Context-Trails-Data](<url for the data repository>)
+ - **NOTE**: the data used in this repository can be found in the repository [Context-Trails-Data](https://github.com/pablosanchezp/ContextTrailsData/)
 
 
 
 ### 🛠️ Additional algorithms/frameworks used in the experiments
   * [MyMedialite](http://www.mymedialite.net/) (for BPR)
-  * [Embarrassingly Shallow Autoencoders for Sparse Data](https://dl.acm.org/doi/10.1145/3308558.3313710) (for EASEr) [Source code](https://github.com/Darel13712/ease_rec). Directory ease_rec
-  * [Updatable, Accurate, Diverse, and Scalable Recommendations for Interactive Applications](https://dl.acm.org/doi/10.1145/2955101) (for RP3beta) [Source code](https://github.com/StivenMetaj/Recommender_Systems_Challenge_2020). Directory recommender-systems
+  * [Embarrassingly Shallow Autoencoders for Sparse Data](https://dl.acm.org/doi/10.1145/3308558.3313710) (for EASEr): [source code](https://github.com/Darel13712/ease_rec) (directory ease_rec).
+  * [Updatable, Accurate, Diverse, and Scalable Recommendations for Interactive Applications](https://dl.acm.org/doi/10.1145/2955101) (for RP3beta): [source code](https://github.com/StivenMetaj/Recommender_Systems_Challenge_2020) (directory recommender-systems).
 
 
 

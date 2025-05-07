@@ -34,6 +34,7 @@ pip install \
 
 
 ### 📂 Repository Structure
+ - **online_appendix.pdf**: file with extended tables from those shown in the paper.
  - **src**: directory containing the source code of the recommenders used in the experiments
  - **scripts**: directory containing the bash scripts for generating the recommendations
   * POI: contains the scripts to perform POI recommendations. Order of execution:

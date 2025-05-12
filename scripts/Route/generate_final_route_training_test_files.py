@@ -21,11 +21,11 @@ def process_user_poi_data(input_csv: str, mapping_csv: str, output_csv: str):
     # Replace venue_id with the mapped integer
     user_data['mapped_venue_id'] = user_data['venue_id'].map(venue_mapping)
 
-    # Convertir la columna 'timestamp' a datetime, manejar errores y asignar UTC si es necesario
+    # Convert the ‘timestamp’ column to datetime, handle errors and assign UTC if needed
     user_data['timestamp'] = user_data['timestamp'].str.replace(' ', 'T')
 
-    
-    # Convertir la columna 'timestamp' a datetime
+
+    # Convert column ‘timestamp’ to datetime
     user_data['timestamp'] = pd.to_datetime(user_data['timestamp'], errors='coerce')
     user_data['timestamp'] = user_data['timestamp'].apply(lambda x: datetime.timestamp(x) if pd.notnull(x) else None)
 

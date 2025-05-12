@@ -65,7 +65,7 @@ for city in $cities; do
     echo "Generating POIS mapping for $prefix..."
     python "$mapping_script" --input_file "$input_file" --output_file "$out_mapping_file"
 
-    # Ejecutar el script para generar latitud y longitud mapeadas
+    # Execute the script to generate mapped latitude and longitude
     echo "Generating mapped lat/lon for $prefix..."
     python "$mapped_lat_lon_script" --input_file "$poi_details_file" --mapping_file "$out_mapping_file" --output_file "$output_file" --use_feature "True"
 

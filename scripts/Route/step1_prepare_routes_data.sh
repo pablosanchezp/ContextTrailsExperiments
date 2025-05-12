@@ -12,7 +12,7 @@ generate_train_test="generate_final_route_training_test_files.py"
 
 
 #CHANGE THIS PATH TO THE REPOSITORY OF THE DATA
-path_source_data_repository="../../../Context-Trails-Data"
+path_source_data_repository="../../../ContextTrailsData"
 
 mkdir -p ../../data
 

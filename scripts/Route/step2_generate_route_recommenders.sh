@@ -79,7 +79,7 @@ do
         recommendation_file=$recommendationFolder/rec_"$city"_"$recommender"_"PrevVisits"$filter_visits"_TieBreaker"$tiebreaker"_WrongCoordsByMidpoint.txt"
 
         if [ ! -f $recommendation_file ]; then
-          echo "NO EXISTE $recommendation_file"
+          echo "NO EXISTS $recommendation_file"
           python "$routes_path"/main.py --training_file $trainFile --test_file $testfile --feat_file $cityCompletePOICoords --output_file $recommendation_file --recommender $recommender --n_items 50 --filter_visits $filter_visits --tiebreaker $tiebreaker
         fi
 

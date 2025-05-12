@@ -30,23 +30,29 @@ pip install \
     implicit==0.4.4 \
     similaripy==0.1.2
 ```
+  Probably, you will need to install also these libraries:
+```
+  sudo apt install g++
+  conda install -c conda-forge libstdcxx-ng
+```
 
 
 
 ### 📂 Repository Structure
  - **online_appendix.pdf**: file with extended tables from those shown in the paper.
  - **src**: directory containing the source code of the recommenders used in the experiments
- - **scripts**: directory containing the bash scripts for generating the recommendations
-  * POI: contains the scripts to perform POI recommendations. Order of execution:
-    * step1_prepare_data.sh
-    * step2_generate_recommenders.sh
+ - **scripts**: directory containing the bash scripts for generating the recommendations. **IMPORTANT**: ensure that scripts end with the end-of-line character of LF, not CRLF.
+  * POI: contains the scripts to perform POI recommendations. Follow this order of execution:
+    * **step1_prepare_data.sh**: script that will prepare all necessary files to execute the experiments for POI recommendation. **NOTE**: configure properly the ''path_source_data_repository'' variable. This variable must reference to the path of the repository [ContextTrailsData](https://github.com/pablosanchezp/ContextTrailsData/) repository.
+    * **step2_generate_recommenders.sh**: script that will execute the experiments for POI recommendation. It will generates a recommendation folder and a results folder for each city. The format of each recommendation file (one per each hyperparameter configuration of each recommender) is: user_id \t venue_id \t score. The format of each result file (one per each hyperparameter configuration of each recommender) is: metric \t result.
+    **NOTE**:you will need to set the ''fullpathMatlab'' variable to refer to the path of your Matlab installation.
   * Route: contains the scripts to perform route recommendations. Order of execution:
-    * step1_prepare_routes_data.sh
-    * step2_generate_route_recommenders.sh
+    * **step1_prepare_routes_data.sh**: script that will prepare all necessary files to execute the experiments for Route recommendation. **NOTE**: configure properly the ''path_source_data_repository'' variable. This variable must reference to the path of the repository [ContextTrailsData](https://github.com/pablosanchezp/ContextTrailsData/) repository.
+    * **step2_generate_route_recommenders.sh**: script that will execute the experiments for Route recommendation. It will generates a recommendation folder and a results folder for each city. Each recommendation/result file will follow the same format as in POI recommendation.
 
 
 
- - **NOTE**: the data used in this repository can be found in the repository [Context-Trails-Data](https://github.com/pablosanchezp/ContextTrailsData/)
+ - **NOTE**: the data used in this repository can be found in the repository [ContextTrailsData](https://github.com/pablosanchezp/ContextTrailsData/). It is necessary to have the data repository in order to run the experiments correctly.
 
 
 

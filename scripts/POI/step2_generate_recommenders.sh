@@ -23,7 +23,7 @@ javaCommand=java
 recPrefix=rec
 
 # cities selected to perform the experiments
-cities="Tokyo NewYorkCity PetalingJaya " #"" # "
+cities="NewYorkCity Tokyo PetalingJaya" #"" # "
 
 recFolder=RecommendationFolder
 resultFolder=ResultFolder
@@ -49,7 +49,7 @@ BPRRegU="0.0025 0.001 0.005 0.01 0.1"
 BPRRegJ="0.00025 0.0001 0.0005 0.001 0.01"
 extensionMyMediaLite=MyMedLt
 geoBPRmaxDists="1 4"
-#IRenMF parameters and data (CHANGE YOUR PATH)
+# IRenMF parameters and data (CHANGE YOUR PATH)
 fullpathMatlab="/home/pablosanchez/MatlabInstalation/bin/matlab"
 # CAUTION. This command is used to locate the instalation of Matlab in your computer. If there is an error launching the script, substitute the variable pathMatlab with the full path of your matlab executable
 pathMatlab="$(dirname $fullpathMatlab)"
@@ -229,7 +229,8 @@ do
   outputRecfile=$recommendationFolder/"$recPrefix"_"$city"_RSys_"SkylineTestOrderReverse".txt
   $javaCommand $jvmMemory -jar $JAR -o skylineRecommenders -trf $trainFileNoDec -tsf $testfileNoDec -cIndex true -rr "SkylineTestOrderReverse" -rs "notUsed" -nI $itemsRecommended -n 20 -orf $outputRecfile
 
-
+  : '
+  # Generate 500 POI candidates per user
   for ranksysRecommender in PopularityRecommender RandomRecommender
   do
     outputRecfile=$recommendationFolder/"$recPrefix"_"$city"_RSys_"$ranksysRecommender"500Items.txt
@@ -237,6 +238,7 @@ do
 
   done
   wait
+
 
   poiRecommender="PopGeoNN"
   UBsimilarity="SJUS"
@@ -251,6 +253,7 @@ do
 
   done
   wait
+  '
 
   for neighbours in $allneighbours
   do
@@ -348,7 +351,7 @@ do
               # Neighbours is put to 20 because this recommender does not use it
 
               outputRecfile=$recommendationFolder/"$recPrefix"_"$city"_RSys_"$rankRecommenderNoSim"_kF"$kFactor"_aF"$alphaValue"_lF"$lambdaValue".txt
-              $javaCommand $jvmMemory -jar $JAR -o ranksysOnlyComplete -trf $trainFile -trf2 -tsf $testfile -cIndex false -rr $rankRecommenderNoSim -rs "notUsed" -nI $itemsRecommended -n 20 -orf $outputRecfile -kFactorizer $kFactor -aFactorizer $alphaValue -lFactorizer $lambdaValue
+              $javaCommand $jvmMemory -jar $JAR -o ranksysOnlyComplete -trf $trainFile -tsf $testfile -cIndex false -rr $rankRecommenderNoSim -rs "notUsed" -nI $itemsRecommended -n 20 -orf $outputRecfile -kFactorizer $kFactor -aFactorizer $alphaValue -lFactorizer $lambdaValue
 
             done
             wait # End alpha values
@@ -381,7 +384,7 @@ do
 
       for poiRecommender in KDEstimatorRecommender
       do
-        outputRecfile=$recommendationFolder/"$recPrefix"_"$title"_RSys_POI_"$poiRecommender".txt
+        outputRecfile=$recommendationFolder/"$recPrefix"_"$city"_RSys_POI_"$poiRecommender".txt
         $javaCommand $jvmMemory -jar $JAR -o ranksysOnlyComplete -trf $trainFile -tsf $testfile -cIndex false -rr $poiRecommender -rs "notUsed" -nI $itemsRecommended -n 20 -orf $outputRecfile -coordFile $cityPOICoords
         $javaCommand $jvmMemory -jar $JAR -o CheckRecommendationsFile -trf $trainFile -tsf $testfile -rf $outputRecfile
 
@@ -508,10 +511,10 @@ do
     for alpha in "1" "2"
     do
 
-        output_rec_file=$recommendationFolder/"$rec_prefix"_"$city"_"RP3beta"_"beta"$beta"_"alpha""$alpha"_ImplicitTrue".txt
+        output_rec_file=$recommendationFolder/"$recPrefix"_"$city"_"RP3beta"_"beta"$beta"_"alpha""$alpha"_ImplicitTrue".txt
         python "$path_baselines_poi"/rp3beta/run2.py --training $trainFile --test $testfile --nI $itemsRecommended --result $output_rec_file --implicit True --alpha $alpha --beta $beta
 
-        output_rec_file=$recommendationFolder/"$rec_prefix"_"$city"_"RP3beta"_"beta"$beta"_"alpha""$alpha"_ImplicitFalse".txt
+        output_rec_file=$recommendationFolder/"$recPrefix"_"$city"_"RP3beta"_"beta"$beta"_"alpha""$alpha"_ImplicitFalse".txt
         python "$path_baselines_poi"/rp3beta/run2.py --training $trainFile --test $testfile --nI $itemsRecommended --result $output_rec_file --alpha $alpha --beta $beta
 
     done
@@ -604,7 +607,7 @@ wait
 : '
 Evaluation part
 '
-cities="NewYork PetalingJaya Tokyo"
+cities="NewYorkCity Tokyo PetalingJaya"
 nonaccresultsPrefix=naev
 evthreshold=1
 

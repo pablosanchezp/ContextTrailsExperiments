@@ -337,7 +337,7 @@ do
       : '
       for poiRecommender in AverageDistanceUserGEO
       do
-        outputRecfile=$recommendationFolder/"$recPrefix"_"$title"_RSys_POI_"$poiRecommender"SIMPLE.txt
+        outputRecfile=$recommendationFolder/"$recPrefix"_"$city"_RSys_POI_"$poiRecommender"SIMPLE.txt
         $javaCommand $jvmMemory -jar $JAR -o ranksysOnlyComplete -trf $trainFile -tsf $testfile -cIndex false -rr $poiRecommender -rs "notUsed" -nI $itemsRecommended -n 20 -orf $outputRecfile -coordFile $cityPOICoords
         $javaCommand $jvmMemory -jar $JAR -o CheckRecommendationsFile -trf $trainFile -tsf $testfile -rf $outputRecfile
       done # End poiRecommender
@@ -346,7 +346,7 @@ do
       # Using the SUM
       for poiRecommender in AverageDistanceUserGEO
       do
-        outputRecfile=$recommendationFolder/"$recPrefix"_"$title"_RSys_POI_"$poiRecommender"FREQUENCY.txt
+        outputRecfile=$recommendationFolder/"$recPrefix"_"$city"_RSys_POI_"$poiRecommender"FREQUENCY.txt
         $javaCommand $jvmMemory -jar $JAR -o ranksysOnlyComplete -trf $trainFile -tsf $testfile -cIndex false -rr $poiRecommender -rs "notUsed" -nI $itemsRecommended -n 20 -orf $outputRecfile -coordFile $cityPOICoords -scoreFreq FREQUENCY
         $javaCommand $jvmMemory -jar $JAR -o CheckRecommendationsFile -trf $trainFile -tsf $testfile -rf $outputRecfile
       done
@@ -355,7 +355,7 @@ do
 
       for poiRecommender in KDEstimatorRecommender
       do
-        outputRecfile=$recommendationFolder/"$recPrefix"_"$title"_RSys_POI_"$poiRecommender".txt
+        outputRecfile=$recommendationFolder/"$recPrefix"_"$city"_RSys_POI_"$poiRecommender".txt
         $javaCommand $jvmMemory -jar $JAR -o ranksysOnlyComplete -trf $trainFile -tsf $testfile -cIndex false -rr $poiRecommender -rs "notUsed" -nI $itemsRecommended -n 20 -orf $outputRecfile -coordFile $cityPOICoords
         $javaCommand $jvmMemory -jar $JAR -o CheckRecommendationsFile -trf $trainFile -tsf $testfile -rf $outputRecfile
 
@@ -617,4 +617,3 @@ do
 
 done # End cities
 wait
-

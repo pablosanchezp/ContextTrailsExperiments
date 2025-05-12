@@ -11,7 +11,7 @@ generate_train_test="generate_final_training_test_files.py"
 
 
 #CHANGE THIS PATH TO THE REPOSITORY OF THE DATA
-path_source_data_repository="../../../Context-Trails-Data"
+path_source_data_repository="../../../ContextTrailsData"
 
 mkdir -p ../../data
 # For each city
@@ -58,7 +58,7 @@ for city in $cities; do
     echo "Generating POIS mapping for $prefix..."
     python "$mapping_script" --input_file "$input_file" --output_file "$out_mapping_file"
 
-    # Ejecutar el script para generar latitud y longitud mapeadas
+    # Execute the script to map the latitudes and longitudes
     echo "Generating mapped lat/lon for $city..."
     python "$mapped_lat_lon_script" --input_file "$poi_details_file" --mapping_file "$out_mapping_file" --output_file "$output_file"
 

@@ -523,7 +523,7 @@ do
   wait
 
 
-  #Second baseline: popularity, knn and minimum distance
+  #Second baseline: popularity, knn and minimum distance. This recommender is H-PUM in the paper
 
   for poiRecommender in PopGeoNN
   do

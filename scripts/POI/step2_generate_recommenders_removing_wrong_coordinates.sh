@@ -4,8 +4,8 @@
 '
 
 # !/bin/bash
-
-JAR=SequentialRecommenders.jar
+path_baselines_poi="../../src/baselines/classic"
+JAR="$path_baselines_poi/SequentialRecommenders.jar"
 jvmMemory=-Xmx100G
 
 
@@ -36,7 +36,7 @@ allAlphaFactorizerRankSys="0.1 1 10"
 cutoffs="5,10,20"
 cutoffsWrite="5-10-20"
 
-mymedialitePath=MyMediaLite-3.11/bin
+mymedialitePath="$path_baselines_poi"/"MyMediaLite-3.11/bin"
 BPRFactors=$allKFactorizerRankSys
 BPRBiasReg="0 0.5 1"
 BPRLearnRate=0.05
@@ -179,13 +179,13 @@ function obtainConfigureFile() #The arguments are the k, the alpha and the lambd
 for city in $cities
 do
   # The test file is always the same
-
-  path_inputs="Cities/"${city}/Original
+  path_inputs="../../data/POI/${city_or}"
 
   trainFile=$path_inputs/${city}"_mapped_trails_weather_aggregated_Temp80train.csv"
   testfile=$path_inputs/${city}"_mapped_trails_weather_aggregated_Temp20test.csv"
 
-  cityCompletePOICoords=$path_inputs/${city}"_mapped_lat_lon.csv"
+  cityCompletePOICoords=$path_inputs/${city}"_mapped_lat_lon_wrong_coordinates_by_midpoint.csv"
+  cityPOICoords=$cityCompletePOICoords
 
   # We need to generate the new files:
 
@@ -211,7 +211,7 @@ do
   echo "Current coord is $cityPOICoords"
 
 
-  : '
+
   for ranksysRecommender in PopularityRecommender RandomRecommender
   do
     outputRecfile=$recommendationFolder/"$recPrefix"_"$city"_RSys_"$ranksysRecommender".txt
@@ -249,8 +249,6 @@ do
 
     #Our GeoBPRMF from ranksys
     #distance neighs is 4kms
-  '
-: '
   for repetition in 1 #2 3 4 5
   do
     for factor in $BPRFactors
@@ -275,9 +273,9 @@ do
       wait
     done # Repetition
     wait
-'
+
     # As this is for the pure approach, it is not Necessary to use repeated items
-  : '
+
   for repetition in 1 #2 3 4
   do
     for factor in $BPRFactors
@@ -306,9 +304,7 @@ do
     wait
   done # Repetition
   wait
-  '
 
-    : '
       # HKV
       for rankRecommenderNoSim in MFRecommenderHKV
       do
@@ -332,9 +328,7 @@ do
         wait # End KFactor
       done
       wait # End RankRecommender
-      '
 
-      : '
       for poiRecommender in AverageDistanceUserGEO
       do
         outputRecfile=$recommendationFolder/"$recPrefix"_"$city"_RSys_POI_"$poiRecommender"SIMPLE.txt
@@ -361,11 +355,11 @@ do
 
       done # End poiRecommender
       wait
-      '
+
 
 
       #FMFMGM
-      : '
+
       for repetition in 1 #2 3 4 5
       do
         for alpha_FMFMGM in $alphas_FMFMGM
@@ -411,10 +405,10 @@ do
           wait
         done # Repetition
         wait
-        '
+
 
 # RankGeoTest
-  : '
+
   for c in $cs_RANKGEOFM
   do
     for alphaF in $alphas_RANKGEOFM
@@ -467,15 +461,15 @@ do
     wait
   done # End c
   wait
-  '
 
-  : '
+
+
   lambda_easer=0.5
   output_rec_file=$recommendationFolder/"$recPrefix"_"$city"_"easer"_"lambda"$lambda_easer"_ImplicitTrue".txt
-  python ease_rec/main.py --training $trainFile --test $testfile --implicit True --lamb $lambda_easer --nI $itemsRecommended --result $output_rec_file
+  python "$path_baselines_poi"/ease_r/main.py --training $trainFile --test $testfile --implicit True --lamb $lambda_easer --nI $itemsRecommended --result $output_rec_file
 
   output_rec_file=$recommendationFolder/"$recPrefix"_"$city"_"easer"_"lambda"$lambda_easer"_ImplicitFalse".txt
-  python ease_rec/main.py --training $trainFile --test $testfile --lamb $lambda_easer --nI $itemsRecommended --result $output_rec_file
+  python "$path_baselines_poi"/ease_r/main.py --training $trainFile --test $testfile --lamb $lambda_easer --nI $itemsRecommended --result $output_rec_file
 
 
 
@@ -485,19 +479,18 @@ do
     do
 
         output_rec_file=$recommendationFolder/"$recPrefix"_"$city"_"RP3beta"_"beta"$beta"_"alpha""$alpha"_ImplicitTrue".txt
-        python recommender-systems/run2.py --training $trainFile --test $testfile --nI $itemsRecommended --result $output_rec_file --implicit True --alpha $alpha --beta $beta
+        python "$path_baselines_poi"/rp3beta/run2.py --training $trainFile --test $testfile --nI $itemsRecommended --result $output_rec_file --implicit True --alpha $alpha --beta $beta
 
         output_rec_file=$recommendationFolder/"$recPrefix"_"$city"_"RP3beta"_"beta"$beta"_"alpha""$alpha"_ImplicitFalse".txt
-        python recommender-systems/run2.py --training $trainFile --test $testfile --nI $itemsRecommended --result $output_rec_file --alpha $alpha --beta $beta
+        python "$path_baselines_poi"/rp3beta/run2.py --training $trainFile --test $testfile --nI $itemsRecommended --result $output_rec_file --alpha $alpha --beta $beta
 
     done
     wait
   done # Repetition
   wait
-  '
 
-  #Second baseline: popularity, knn and minimum distance
-: '
+
+  #Second baseline: popularity, knn and minimum distance. This recommender is H-PUM in the paper
   for poiRecommender in PopGeoNN
   do
     for UBsimilarity in SJUS VCUS
@@ -514,8 +507,7 @@ do
     wait
   done # End poiRecommender
   wait
- '
-  : '
+
   resultFileNNCityFile=$pathDest/POIS_""$city""_"$GeoNN"NN.txt
   poisCoordsOfCityFile=$pathDest/"$processedCities"/POIS_""$city""_"$extensionCoords"
   specificCityPOICoords=$path_inputs/${city}"_mapped_lat_lon_ONLYTRAINING_WrongCoordsByMidpoint.csv"
@@ -562,7 +554,7 @@ do
     wait #End alpha IrenMF
   done
   wait #End KIRENMF
-  '
+
 
 
 

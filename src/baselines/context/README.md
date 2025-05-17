@@ -9,6 +9,7 @@
 
 Before running the scripts, create the following folder structure:
 
+```
 data/
 ├── raw/
 │ └── {dataset}/
@@ -19,6 +20,7 @@ data/
 │ └── weather/
 ├── cleaned/
 └── predictions/
+```
 
 > Replace `{dataset}` with the name of the city dataset.
 
